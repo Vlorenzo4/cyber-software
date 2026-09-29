@@ -39,6 +39,11 @@ enum PrioridadTicket {
   ALTA
 }
 
+enum OrigenTicket {
+  CLIENTE
+  SISTEMA
+}
+
 enum EstadoConsulta {
   NUEVA
   CONTACTADA
@@ -92,8 +97,9 @@ model Ticket {
   descripcion        String
   estado             EstadoTicket    @default(ABIERTO)
   prioridad          PrioridadTicket @default(MEDIA)
-  remitenteNombre    String
-  remitenteEmail     String
+  origen             OrigenTicket    @default(CLIENTE)
+  remitenteNombre    String?
+  remitenteEmail     String?
   createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt
 }
