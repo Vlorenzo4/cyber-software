@@ -3,6 +3,7 @@ import { EstadoProyecto, EstadoTicket } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { CUT_CORNERS_CLIP } from "@/lib/clipPath";
 import { ESTADO_PROYECTO_OPCIONES, tipoLabel, estadoProyectoLabel } from "@/lib/proyectos";
+import { TICKET_URGENTE_WHERE } from "@/lib/tickets";
 
 const FILTROS = [
   { value: "TODOS", label: "Todos" },
@@ -22,8 +23,9 @@ export default async function ProyectosPage({
     where: filtroActivo !== "TODOS" ? { estado: filtroActivo } : undefined,
     orderBy: { createdAt: "desc" },
     include: {
-      _count: {
-        select: { tickets: { where: { estado: EstadoTicket.ABIERTO } } },
+      tickets: {
+        where: { OR: [{ estado: EstadoTicket.NUEVO }, TICKET_URGENTE_WHERE] },
+        select: { estado: true, prioridad: true },
       },
     },
   });
@@ -63,40 +65,52 @@ export default async function ProyectosPage({
         <p className="text-sm text-[#9A9A9A]">No hay proyectos en este filtro.</p>
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {proyectos.map((p) => (
-            <Link
-              key={p.id}
-              href={`/admin/proyectos/${p.id}`}
-              className="block bg-white/10 p-[1px]"
-              style={{ clipPath: CUT_CORNERS_CLIP }}
-            >
-              <div
-                className="h-full bg-[#131313] p-6 transition-colors hover:bg-[#181818]"
+          {proyectos.map((p) => {
+            const nuevos = p.tickets.filter((t) => t.estado === EstadoTicket.NUEVO).length;
+            const tieneUrgente = p.tickets.some(
+              (t) => t.prioridad === "ALTA" && t.estado !== "RESUELTO"
+            );
+            return (
+              <Link
+                key={p.id}
+                href={`/admin/proyectos/${p.id}`}
+                className="relative block bg-white/10 p-[1px]"
                 style={{ clipPath: CUT_CORNERS_CLIP }}
               >
-                <div className="mb-1 text-xs uppercase tracking-[0.08em] text-[#5A5A5A]">
-                  {p.clienteNombre}
-                </div>
-                <h2 className="mb-3 font-display text-base font-semibold uppercase text-foreground">
-                  {p.nombreProyecto}
-                </h2>
-                <div className="mb-4 flex flex-wrap gap-2 text-xs">
-                  <span className="border border-white/15 px-2 py-1 text-[#B8B8B8]">
-                    {tipoLabel(p.tipo)}
-                  </span>
-                  <span className="border border-cyan/50 px-2 py-1 text-cyan">
-                    {estadoProyectoLabel(p.estado)}
-                  </span>
-                </div>
-                {p._count.tickets > 0 && (
-                  <div className="text-xs font-semibold text-yellow">
-                    {p._count.tickets} ticket{p._count.tickets > 1 ? "s" : ""} abierto
-                    {p._count.tickets > 1 ? "s" : ""}
+                <div
+                  className="relative h-full bg-[#131313] p-6 transition-colors hover:bg-[#181818]"
+                  style={{ clipPath: CUT_CORNERS_CLIP }}
+                >
+                  {tieneUrgente && (
+                    <span
+                      className="absolute right-4 top-4 h-[10px] w-[10px] animate-pulse rounded-full bg-red-500"
+                      style={{ boxShadow: "0 0 10px 3px rgba(239,68,68,0.7)" }}
+                      title="Tiene tickets de prioridad alta sin resolver"
+                    />
+                  )}
+                  <div className="mb-1 text-xs uppercase tracking-[0.08em] text-[#5A5A5A]">
+                    {p.clienteNombre}
                   </div>
-                )}
-              </div>
-            </Link>
-          ))}
+                  <h2 className="mb-3 font-display text-base font-semibold uppercase text-foreground">
+                    {p.nombreProyecto}
+                  </h2>
+                  <div className="mb-4 flex flex-wrap gap-2 text-xs">
+                    <span className="border border-white/15 px-2 py-1 text-[#B8B8B8]">
+                      {tipoLabel(p.tipo)}
+                    </span>
+                    <span className="border border-cyan/50 px-2 py-1 text-cyan">
+                      {estadoProyectoLabel(p.estado)}
+                    </span>
+                  </div>
+                  {nuevos > 0 && (
+                    <div className="text-xs font-semibold text-yellow">
+                      {nuevos} ticket{nuevos > 1 ? "s" : ""} nuevo{nuevos > 1 ? "s" : ""}
+                    </div>
+                  )}
+                </div>
+              </Link>
+            );
+          })}
         </div>
       )}
     </div>

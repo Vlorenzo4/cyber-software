@@ -28,7 +28,7 @@ enum EstadoCobro {
 }
 
 enum EstadoTicket {
-  ABIERTO
+  NUEVO
   EN_REVISION
   RESUELTO
 }
@@ -47,7 +47,7 @@ enum OrigenTicket {
 enum EstadoConsulta {
   NUEVA
   CONTACTADA
-  CONVERTIDA
+  CONTRATADA
   DESCARTADA
 }
 
@@ -95,7 +95,7 @@ model Ticket {
   proyecto           Proyecto        @relation(fields: [proyectoId], references: [id], onDelete: Cascade)
   asunto             String
   descripcion        String
-  estado             EstadoTicket    @default(ABIERTO)
+  estado             EstadoTicket    @default(NUEVO)
   prioridad          PrioridadTicket @default(MEDIA)
   origen             OrigenTicket    @default(CLIENTE)
   remitenteNombre    String?

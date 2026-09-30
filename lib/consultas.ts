@@ -3,7 +3,7 @@ import { EstadoConsulta } from "@prisma/client";
 export const ESTADO_OPCIONES = [
   { value: EstadoConsulta.NUEVA, label: "Nueva" },
   { value: EstadoConsulta.CONTACTADA, label: "Contactada" },
-  { value: EstadoConsulta.CONVERTIDA, label: "Convertida" },
+  { value: EstadoConsulta.CONTRATADA, label: "Contratada" },
   { value: EstadoConsulta.DESCARTADA, label: "Descartada" },
 ] as const;
 
