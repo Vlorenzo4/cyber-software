@@ -2,7 +2,7 @@ import RevealOnScroll from "./RevealOnScroll";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-yellow/15 px-[6vw] py-14">
+    <footer className="bg-background bg-grid-lines border-t border-yellow/15 px-[6vw] py-14">
       <RevealOnScroll className="mx-auto flex max-w-[1200px] flex-wrap justify-between gap-10">
         <div className="max-w-[280px]">
           <div className="mb-2.5 font-display text-lg font-bold uppercase">
@@ -31,16 +31,16 @@ export default function Footer() {
 
         <div className="flex flex-col gap-2.5">
           <a
-            href="https://wa.me/5491155550100"
+            href="https://wa.me/5491157710063"
             className="text-[13px] text-[#B8B8B8] hover:text-cyan"
           >
             WhatsApp
           </a>
           <a
-            href="mailto:hola@cybersoftware.dev"
+            href="mailto:valenvfx04@gmail.com"
             className="text-[13px] text-[#B8B8B8] hover:text-cyan"
           >
-            hola@cybersoftware.dev
+            valenvfx04@gmail.com
           </a>
           <a
             href="https://github.com/cybersoftware"

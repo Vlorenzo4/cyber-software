@@ -92,21 +92,21 @@ export default function Contacto() {
             </p>
             <div className="flex flex-col gap-3.5">
               <a
-                href="https://wa.me/5491155550100"
+                href="https://wa.me/5491157710063"
                 className="bg-background px-6 py-3.5 text-center text-sm font-bold tracking-[0.05em] text-yellow hover:brightness-125 transition-[filter]"
                 style={{ clipPath: CUT_CORNERS_CLIP }}
               >
-                WHATSAPP: +54 9 11 5555-0100
+                WHATSAPP: +54 11 5771 0063
               </a>
               <ClipOutlineButton
-                href="mailto:hola@cybersoftware.dev"
+                href="mailto:valenvfx04@gmail.com"
                 borderColorClass="bg-cyan"
                 fillClass="bg-yellow"
                 textColorClass="text-background"
                 hoverClass="hover:bg-background/10"
                 className="px-6 py-3.5 text-center text-sm font-bold tracking-[0.05em]"
               >
-                EMAIL: HOLA@CYBERSOFTWARE.DEV
+                EMAIL: VALENVFX04@GMAIL.COM
               </ClipOutlineButton>
             </div>
           </div>

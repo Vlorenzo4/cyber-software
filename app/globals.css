@@ -27,6 +27,37 @@ select option {
   color: #ececec;
 }
 
+.bg-grid-lines {
+  position: relative;
+  isolation: isolate;
+}
+
+.bg-grid-lines::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(63, 216, 232, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(63, 216, 232, 0.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    white 240px,
+    white calc(100% - 240px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    white 240px,
+    white calc(100% - 240px),
+    transparent 100%
+  );
+}
+
 @keyframes hero-glow {
   0% {
     opacity: 0.65;

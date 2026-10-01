@@ -29,7 +29,7 @@ export default function Nosotros() {
             </div>
             <div className="min-w-[260px] flex-1">
               <h3 className="mb-1 font-display text-[22px] font-semibold uppercase text-foreground">
-                NICOLÁS DUARTE
+                VALENTIN LORENZO
               </h3>
               <div className="mb-5 flex items-center gap-2 text-[13px] uppercase tracking-[0.08em] text-cyan">
                 <span className="inline-block h-[6px] w-[6px] shrink-0 bg-cyan" />

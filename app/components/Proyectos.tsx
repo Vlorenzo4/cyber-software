@@ -1,75 +1,89 @@
+import Image from "next/image";
 import RevealOnScroll from "./RevealOnScroll";
 import { CUT_CORNERS_CLIP } from "@/lib/clipPath";
+import { prisma } from "@/lib/prisma";
 
-const PROYECTOS = [
-  {
-    shot: "PRODUCT SHOT — RIFFDECK",
-    badge: "EN PRODUCCIÓN · PRODUCTO PROPIO",
-    badgeVariant: "cyan" as const,
-    titulo: "RIFFDECK",
-    texto:
-      "App para armar setlists y llevar letras y acordes en vivo, pensada para bandas.",
-  },
-  {
-    shot: "PRODUCT SHOT — NORTE INSUMOS",
-    badge: "EN DESARROLLO · CLIENTE",
-    badgeVariant: "neutral" as const,
-    titulo: "NORTE INSUMOS",
-    texto:
-      "Sistema de gestión para una distribuidora de insumos industriales, con stock y cuentas corrientes.",
-  },
-  {
-    shot: "PRODUCT SHOT — LA TIENDA DE ANA",
-    badge: "ENTREGADO · CLIENTE",
-    badgeVariant: "neutral" as const,
-    titulo: "LA TIENDA DE ANA",
-    texto: "Tienda online con integración de Mercado Pago y facturación AFIP.",
-  },
-];
+export default async function Proyectos() {
+  const proyectos = await prisma.proyecto.findMany({
+    where: { mostrarEnLanding: true },
+    orderBy: { createdAt: "asc" },
+  });
 
-export default function Proyectos() {
+  if (proyectos.length === 0) return null;
+
   return (
-    <section id="proyectos" className="mx-auto max-w-[1500px] px-[6vw] py-[100px]">
+    <section id="proyectos" className="mx-auto max-w-[1600px] px-[6vw] py-[120px]">
       <RevealOnScroll>
-        <h2 className="mb-14 font-display text-[clamp(1.8rem,3vw,2.4rem)] font-bold uppercase tracking-[-0.01em]">
+        <h2 className="mb-20 font-display text-[clamp(2.2rem,4vw,3.2rem)] font-bold uppercase tracking-[-0.01em]">
           PROYECTOS
         </h2>
-        <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
-          {PROYECTOS.map((p) => (
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {proyectos.map((p) => (
             <div
-              key={p.titulo}
+              key={p.id}
               className="bg-cyan p-[2px]"
               style={{ clipPath: CUT_CORNERS_CLIP }}
             >
               <div
-                className="h-full bg-[#131313]"
+                className="flex h-full flex-col bg-[#131313]"
                 style={{ clipPath: CUT_CORNERS_CLIP }}
               >
-                <div
-                  className="flex aspect-[16/10] items-center justify-center"
-                  style={{
-                    background:
-                      "repeating-linear-gradient(135deg, #1A1A1A 0 10px, #151515 10px 20px)",
-                  }}
-                >
-                  <span className="font-mono text-xs tracking-[0.05em] text-[#5A5A5A]">
-                    {p.shot}
-                  </span>
-                </div>
-                <div className="p-6">
-                  <div
-                    className={`mb-4 inline-block border px-[10px] py-1 text-[11px] uppercase tracking-[0.08em] ${
-                      p.badgeVariant === "cyan"
-                        ? "border-cyan text-cyan"
-                        : "border-white/25 text-[#B8B8B8]"
-                    }`}
-                  >
-                    {p.badge}
+                {p.imagenPortfolioUrl && (
+                  <div className="relative aspect-[16/10] overflow-hidden">
+                    <Image
+                      src={p.imagenPortfolioUrl}
+                      alt={p.nombreProyecto}
+                      fill
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      className="object-cover"
+                    />
                   </div>
-                  <h3 className="mb-2 font-display text-[19px] font-semibold uppercase">
-                    {p.titulo}
+                )}
+                <div className="flex flex-1 flex-col p-8">
+                  {p.tagsPortfolio.length > 0 && (
+                    <div className="mb-5 flex flex-wrap gap-2">
+                      {p.tagsPortfolio.map((tag) => (
+                        <span
+                          key={tag}
+                          className="inline-block border border-cyan px-3 py-1.5 text-xs uppercase tracking-[0.08em] text-cyan"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  <h3 className="mb-3 font-display text-2xl font-semibold uppercase">
+                    {p.nombreProyecto}
                   </h3>
-                  <p className="text-sm leading-[1.6] text-[#9A9A9A]">{p.texto}</p>
+                  {p.descripcionPortfolio && (
+                    <p className="text-base leading-[1.65] text-[#9A9A9A]">
+                      {p.descripcionPortfolio}
+                    </p>
+                  )}
+
+                  {p.resenaTexto && (
+                    <div className="mt-6 border-l-2 border-cyan/40 pl-4">
+                      <p className="text-sm italic leading-[1.6] text-[#B8B8B8]">
+                        &ldquo;{p.resenaTexto}&rdquo;
+                      </p>
+                      {p.resenaAutor && (
+                        <p className="mt-2 text-xs uppercase tracking-[0.06em] text-[#5A5A5A]">
+                          — {p.resenaAutor}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  {p.linkPublico && (
+                    <a
+                      href={p.linkPublico}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-6 inline-block self-start border border-cyan px-5 py-2.5 text-xs font-bold uppercase tracking-[0.08em] text-cyan transition-colors hover:bg-cyan hover:text-background"
+                    >
+                      Usar app
+                    </a>
+                  )}
                 </div>
               </div>
             </div>

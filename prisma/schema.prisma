@@ -73,6 +73,15 @@ model Proyecto {
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
 
+  // Portfolio público (landing)
+  mostrarEnLanding     Boolean  @default(false)
+  tagsPortfolio        String[] @default([])
+  imagenPortfolioUrl   String?
+  descripcionPortfolio String? // descripción pública, distinta de "notas" (interno)
+  linkPublico          String?
+  resenaTexto          String?
+  resenaAutor          String? // ej: "Dueño de [rubro]", nunca nombre real ni datos sensibles del cliente
+
   cobros  Cobro[]
   tickets Ticket[]
 }

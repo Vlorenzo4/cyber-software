@@ -1,6 +1,5 @@
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import Problemas from "./components/Problemas";
 import Servicios from "./components/Servicios";
 import Proyectos from "./components/Proyectos";
 import Proceso from "./components/Proceso";
@@ -13,7 +12,7 @@ function GradientStrip({ from, to }: { from: string; to: string }) {
     <div
       aria-hidden="true"
       style={{
-        height: "300px",
+        height: "440px",
         background: `linear-gradient(to bottom, ${from} 0%, ${to} 100%)`,
       }}
     />
@@ -33,8 +32,7 @@ export default function Home() {
             del documento (no dependen del alto de ninguna sección vecina). */}
         <GradientStrip from="#F4E400" to="#0A0A0A" />
 
-        <div className="bg-background">
-          <Problemas />
+        <div className="bg-background bg-grid-lines">
           <Servicios />
           <Proyectos />
         </div>
