@@ -6,6 +6,7 @@ import Proceso from "./components/Proceso";
 import Nosotros from "./components/Nosotros";
 import Contacto from "./components/Contacto";
 import Footer from "./components/Footer";
+import { getConfiguracionAgencia } from "@/lib/configuracion";
 
 function GradientStrip({ from, to }: { from: string; to: string }) {
   return (
@@ -19,7 +20,9 @@ function GradientStrip({ from, to }: { from: string; to: string }) {
   );
 }
 
-export default function Home() {
+export default async function Home() {
+  const config = await getConfiguracionAgencia();
+
   return (
     <>
       <Navbar />
@@ -42,7 +45,7 @@ export default function Home() {
         <div className="bg-yellow">
           <Proceso />
           <Nosotros />
-          <Contacto />
+          <Contacto email={config.email} whatsapp={config.whatsapp} />
         </div>
       </main>
       <Footer />

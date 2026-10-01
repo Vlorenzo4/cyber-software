@@ -1,6 +1,7 @@
 import type { Proyecto } from "@prisma/client";
 import { CUT_CORNERS_CLIP } from "@/lib/clipPath";
 import { TIPO_OPCIONES, ESTADO_PROYECTO_OPCIONES } from "@/lib/proyectos";
+import PortfolioSection from "./PortfolioSection";
 
 type ProyectoFormProps = {
   action: (formData: FormData) => void | Promise<void>;
@@ -144,6 +145,8 @@ export default function ProyectoForm({
           />
         </div>
       </div>
+
+      <PortfolioSection proyecto={proyecto} />
 
       <button
         type="submit"

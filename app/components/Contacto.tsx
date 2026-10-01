@@ -5,6 +5,7 @@ import RevealOnScroll from "./RevealOnScroll";
 import ClipOutlineButton from "./ClipOutlineButton";
 import { contactoSchema, NECESIDAD_OPCIONES } from "@/lib/validations/contacto";
 import { CUT_CORNERS_CLIP } from "@/lib/clipPath";
+import { whatsappLink } from "@/lib/phone";
 
 type FormState = {
   nombre: string;
@@ -29,7 +30,12 @@ const inputClass =
 const labelClass =
   "text-[11px] font-semibold uppercase tracking-[0.1em] text-background/70 mb-1.5 block";
 
-export default function Contacto() {
+type ContactoProps = {
+  email: string;
+  whatsapp: string;
+};
+
+export default function Contacto({ email, whatsapp }: ContactoProps) {
   const [form, setForm] = useState<FormState>(INITIAL_STATE);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
@@ -92,21 +98,21 @@ export default function Contacto() {
             </p>
             <div className="flex flex-col gap-3.5">
               <a
-                href="https://wa.me/5491157710063"
+                href={whatsappLink(whatsapp)}
                 className="bg-background px-6 py-3.5 text-center text-sm font-bold tracking-[0.05em] text-yellow hover:brightness-125 transition-[filter]"
                 style={{ clipPath: CUT_CORNERS_CLIP }}
               >
-                WHATSAPP: +54 11 5771 0063
+                WHATSAPP: {whatsapp}
               </a>
               <ClipOutlineButton
-                href="mailto:valenvfx04@gmail.com"
+                href={`mailto:${email}`}
                 borderColorClass="bg-cyan"
                 fillClass="bg-yellow"
                 textColorClass="text-background"
                 hoverClass="hover:bg-background/10"
                 className="px-6 py-3.5 text-center text-sm font-bold tracking-[0.05em]"
               >
-                EMAIL: VALENVFX04@GMAIL.COM
+                EMAIL: {email.toUpperCase()}
               </ClipOutlineButton>
             </div>
           </div>
